@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -157,15 +156,17 @@ export default function LoginPage() {
         animation: 'bounce 2s infinite',
         zIndex: 20
       }}>
-        <Image
-          src="/ceelogo.png"
-          alt="CEE Core Elite Experts Logo"
-          width={80}
-          height={80}
-          style={{
-            objectFit: 'contain'
-          }}
-        />
+        <div style={{
+          fontSize: '3rem',
+          textAlign: 'center',
+          padding: '0.5rem',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '12px',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          backdropFilter: 'blur(10px)'
+        }}>
+          🚀
+        </div>
       </div>
 
       {/* Main Login Form */}
