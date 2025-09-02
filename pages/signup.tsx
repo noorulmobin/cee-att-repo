@@ -63,23 +63,23 @@ export default function SignupPage() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '1rem',
+              padding: '0.5rem',
       position: 'relative',
       overflow: 'hidden'
     }}>
       {/* Core Elite Experts - Top Left */}
       <div style={{
         position: 'absolute',
-        top: '1rem',
-        left: '1rem',
+        top: '0.5rem',
+        left: '0.5rem',
         animation: 'bounce 2s infinite',
         zIndex: 20
       }}>
         <Image
           src="/ceelogo.png"
           alt="CEE Core Elite Experts Logo"
-          width={80}
-          height={80}
+          width={60}
+          height={60}
           style={{
             objectFit: 'contain'
           }}
@@ -92,9 +92,9 @@ export default function SignupPage() {
         backdropFilter: 'blur(20px)',
         border: '1px solid rgba(255, 255, 255, 0.2)',
         borderRadius: '20px',
-        padding: '2rem',
+        padding: '1.5rem',
         width: '100%',
-        maxWidth: '400px',
+        maxWidth: '350px',
         boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
         position: 'relative',
         zIndex: 10,

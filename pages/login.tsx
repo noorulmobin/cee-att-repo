@@ -139,29 +139,29 @@ export default function LoginPage() {
   // };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '1rem',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+          <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '0.5rem',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
       {/* Core Elite Experts - Top Left */}
       <div style={{
         position: 'absolute',
-        top: '1rem',
-        left: '1rem',
+        top: '0.5rem',
+        left: '0.5rem',
         animation: 'bounce 2s infinite',
         zIndex: 20
       }}>
         <Image
           src="/ceelogo.png"
           alt="CEE Core Elite Experts Logo"
-          width={80}
-          height={80}
+          width={60}
+          height={60}
           style={{
             objectFit: 'contain'
           }}
@@ -174,17 +174,17 @@ export default function LoginPage() {
         backdropFilter: 'blur(20px)',
         border: '1px solid rgba(255, 255, 255, 0.2)',
         borderRadius: '20px',
-        padding: '2rem',
+        padding: '1.5rem',
         width: '100%',
-        maxWidth: '400px',
+        maxWidth: '350px',
         boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
         position: 'relative',
         zIndex: 10,
-        marginTop: '3rem'
+        marginTop: '2rem'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <h2 style={{
-            fontSize: '2rem',
+            fontSize: '1.5rem',
             fontWeight: '800',
             color: 'white',
             marginBottom: '0.5rem'
@@ -192,7 +192,7 @@ export default function LoginPage() {
             Welcome back
           </h2>
           <p style={{
-            fontSize: '1.1rem',
+            fontSize: '1rem',
             color: '#dbeafe'
           }}>
             Sign in to your account
@@ -368,16 +368,16 @@ export default function LoginPage() {
       </div>
 
       {/* Developed By Footer */}
-      <div style={{
-        position: 'absolute',
-        bottom: '1rem',
-        left: '0',
-        right: '0',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        animation: 'bounce 2s infinite'
-      }}>
+              <div style={{
+          position: 'absolute',
+          bottom: '0.5rem',
+          left: '0',
+          right: '0',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          animation: 'bounce 2s infinite'
+        }}>
         <p style={{
           color: 'white',
           fontSize: '0.875rem',

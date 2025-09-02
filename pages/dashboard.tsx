@@ -597,16 +597,16 @@ export default function Dashboard() {
       <div style={{
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         color: 'white',
-        padding: '2rem 0',
-        marginBottom: '2rem'
+        padding: '1rem 0',
+        marginBottom: '1rem'
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-              <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+              <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                 Welcome, {user.name}!
               </h1>
-              <p style={{ fontSize: '1.125rem', color: '#dbeafe' }}>
+              <p style={{ fontSize: '1rem', color: '#dbeafe' }}>
                 Manage your attendance and view activity updates
               </p>
             </div>
@@ -616,7 +616,7 @@ export default function Dashboard() {
                 background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                 color: 'white',
                 border: 'none',
-                padding: '16px 24px',
+                padding: '12px 16px',
                 borderRadius: '12px',
                 fontWeight: '600',
                 cursor: 'pointer',
@@ -833,17 +833,17 @@ export default function Dashboard() {
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255, 255, 255, 0.2)',
             borderRadius: '20px',
-            padding: '2rem',
-            marginBottom: '2rem'
+            padding: '1.5rem',
+            marginBottom: '1.5rem'
           }}>
-            <h2 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '1.5rem', textAlign: 'center' }}>
+            <h2 style={{ color: 'white', fontSize: '1.25rem', marginBottom: '1rem', textAlign: 'center' }}>
               🚀 Quick Actions
             </h2>
             
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '2rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '1rem',
               marginBottom: '1rem'
             }}>
               {/* Sign In Button */}
@@ -854,9 +854,9 @@ export default function Dashboard() {
                   background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                   color: 'white',
                   border: 'none',
-                  padding: '1.5rem',
+                  padding: '1rem',
                   borderRadius: '20px',
-                  fontSize: '1.25rem',
+                  fontSize: '1rem',
                   fontWeight: 'bold',
                   cursor: isLoading ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
@@ -865,7 +865,7 @@ export default function Dashboard() {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: '0.75rem'
+                  gap: '0.5rem'
                 }}
                 onMouseEnter={(e) => {
                   if (!isLoading) {
@@ -895,9 +895,9 @@ export default function Dashboard() {
                   background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                   color: 'white',
                   border: 'none',
-                  padding: '1.5rem',
+                  padding: '1rem',
                   borderRadius: '20px',
-                  fontSize: '1.25rem',
+                  fontSize: '1rem',
                   fontWeight: 'bold',
                   cursor: isLoading ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
@@ -906,7 +906,7 @@ export default function Dashboard() {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: '0.75rem'
+                  gap: '0.5rem'
                 }}
                 onMouseEnter={(e) => {
                   if (!isLoading) {
@@ -933,10 +933,10 @@ export default function Dashboard() {
             <div style={{
               background: 'rgba(0, 0, 0, 0.3)',
               borderRadius: '12px',
-              padding: '1.5rem',
+              padding: '1rem',
               marginTop: '1rem'
             }}>
-              <h3 style={{ color: '#f59e0b', fontSize: '1.125rem', marginBottom: '1rem', textAlign: 'center' }}>
+              <h3 style={{ color: '#f59e0b', fontSize: '1rem', marginBottom: '0.75rem', textAlign: 'center' }}>
                 ⏰ 12-Hour Activity Updates
               </h3>
               <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
@@ -2538,5 +2538,6 @@ export default function Dashboard() {
         )}
       </div>
     </div>
+
   );
 }
