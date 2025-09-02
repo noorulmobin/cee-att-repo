@@ -158,7 +158,7 @@ export default function LoginPage() {
         zIndex: 20
       }}>
         <Image
-          src="/cee-logo.png"
+          src="/ceelogo.png"
           alt="CEE Core Elite Experts Logo"
           width={80}
           height={80}
