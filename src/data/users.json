@@ -1,0 +1,44 @@
+[
+  {
+    "username": "admin",
+    "password": "admin123",
+    "name": "System Administrator",
+    "role": "admin",
+    "email": "admin@company.com"
+  },
+  {
+    "username": "ceo",
+    "password": "ceo2024",
+    "name": "Chief Executive Officer",
+    "role": "admin",
+    "email": "ceo@company.com"
+  },
+  {
+    "username": "john",
+    "password": "password123",
+    "name": "John Doe",
+    "role": "user",
+    "email": "john@company.com"
+  },
+  {
+    "username": "jane",
+    "password": "password123",
+    "name": "Jane Smith",
+    "role": "user",
+    "email": "jane@company.com"
+  },
+  {
+    "username": "mike",
+    "password": "password123",
+    "name": "Mike Johnson",
+    "role": "user",
+    "email": "mike@company.com"
+  },
+  {
+    "username": "mubeen",
+    "password": "mubeen123",
+    "name": "mubeen",
+    "email": "mubeen@1245.gmail.com",
+    "role": "user"
+  }
+]
