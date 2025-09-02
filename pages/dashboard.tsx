@@ -1042,17 +1042,23 @@ export default function Dashboard() {
                     {/* Activity Header - Always Visible */}
                     <div 
                       style={{
-                        padding: '1rem',
+                        padding: window.innerWidth <= 768 ? '0.75rem' : '1rem',
                         display: 'flex',
                         justifyContent: 'space-between',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                        minHeight: window.innerWidth <= 768 ? '60px' : 'auto'
                       }}
                       onClick={() => togglePersonalActivityDetails(activity.id)}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: window.innerWidth <= 768 ? '0.75rem' : '1rem' 
+                      }}>
                         <div style={{
-                          width: '50px',
-                          height: '50px',
+                          width: window.innerWidth <= 768 ? '40px' : '50px',
+                          height: window.innerWidth <= 768 ? '40px' : '50px',
                           borderRadius: '50%',
                           background: activity.action === 'sign-in' 
                             ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
@@ -1062,7 +1068,7 @@ export default function Dashboard() {
                           justifyContent: 'center',
                           color: 'white',
                           fontWeight: 'bold',
-                          fontSize: '1.5rem'
+                          fontSize: window.innerWidth <= 768 ? '1.25rem' : '1.5rem'
                         }}>
                           {activity.action === 'sign-in' ? '✅' : '🚪'}
                         </div>
@@ -1070,26 +1076,39 @@ export default function Dashboard() {
                           <div style={{ 
                             color: activity.action === 'sign-in' ? '#10b981' : '#ef4444',
                             fontWeight: 'bold',
-                            fontSize: '1.125rem'
+                            fontSize: window.innerWidth <= 768 ? '1rem' : '1.125rem'
                           }}>
                             {activity.action === 'sign-in' ? 'Sign In' : 'Sign Out'}
                           </div>
-                          <div style={{ color: 'white', fontSize: '0.875rem', marginTop: '0.25rem' }}>
+                          <div style={{ 
+                            color: 'white', 
+                            fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem', 
+                            marginTop: '0.25rem' 
+                          }}>
                             {new Date(activity.timestamp).toLocaleDateString()} at {new Date(activity.timestamp).toLocaleTimeString()}
                           </div>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: window.innerWidth <= 768 ? '0.25rem' : '0.5rem',
+                        flexDirection: window.innerWidth <= 768 ? 'column' : 'row'
+                      }}>
                         <span style={{ 
                           color: '#9ca3af', 
-                          fontSize: '1.25rem',
+                          fontSize: window.innerWidth <= 768 ? '1rem' : '1.25rem',
                           transition: 'transform 0.2s ease',
                           transform: expandedPersonalActivities.includes(activity.id) ? 'rotate(180deg)' : 'rotate(0deg)'
                         }}>
                           ▼
                         </span>
-                        <span style={{ color: '#dbeafe', fontSize: '0.75rem' }}>
-                          Click for details
+                        <span style={{ 
+                          color: '#dbeafe', 
+                          fontSize: window.innerWidth <= 768 ? '0.625rem' : '0.75rem',
+                          textAlign: 'center'
+                        }}>
+                          {window.innerWidth <= 768 ? 'Tap for details' : 'Click for details'}
                         </span>
                       </div>
                     </div>
@@ -1098,17 +1117,36 @@ export default function Dashboard() {
                     {expandedPersonalActivities.includes(activity.id) && (
                       <div style={{
                         background: 'rgba(0, 0, 0, 0.2)',
-                        padding: '1.5rem',
+                        padding: window.innerWidth <= 768 ? '1rem' : '1.5rem',
                         borderTop: '1px solid rgba(255, 255, 255, 0.1)'
                       }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
+                        <div style={{ 
+                          display: 'grid', 
+                          gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : 'repeat(auto-fit, minmax(200px, 1fr))', 
+                          gap: window.innerWidth <= 768 ? '0.75rem' : '1rem' 
+                        }}>
                           {/* Activity Details */}
-                          <div>
-                            <h4 style={{ color: '#60a5fa', fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem' }}>
+                          <div style={{
+                            padding: window.innerWidth <= 768 ? '0.75rem' : '1rem',
+                            background: 'rgba(59, 130, 246, 0.1)',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(59, 130, 246, 0.2)'
+                          }}>
+                            <h4 style={{ 
+                              color: '#60a5fa', 
+                              fontSize: window.innerWidth <= 768 ? '0.875rem' : '1rem', 
+                              fontWeight: '600', 
+                              marginBottom: '0.5rem',
+                              textAlign: window.innerWidth <= 768 ? 'center' : 'left'
+                            }}>
                               📋 Activity Details
                             </h4>
-                            <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                              <div><strong>Type:</strong> 
+                            <div style={{ 
+                              color: '#dbeafe', 
+                              fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem', 
+                              lineHeight: '1.6' 
+                            }}>
+                              <div style={{ marginBottom: '0.25rem' }}><strong>Type:</strong> 
                                 <span style={{ 
                                   color: activity.action === 'sign-in' ? '#10b981' : '#ef4444',
                                   fontWeight: 'bold',
@@ -1117,25 +1155,36 @@ export default function Dashboard() {
                                   {activity.action === 'sign-in' ? '✅ Sign In' : '🚪 Sign Out'}
                                 </span>
                               </div>
-                              <div><strong>Date:</strong> {new Date(activity.timestamp).toLocaleDateString()}</div>
-                              <div><strong>Time:</strong> {new Date(activity.timestamp).toLocaleTimeString()}</div>
-                              <div><strong>Record ID:</strong> {activity.id}</div>
+                              <div style={{ marginBottom: '0.25rem' }}><strong>Date:</strong> {new Date(activity.timestamp).toLocaleDateString()}</div>
+                              <div style={{ marginBottom: '0.25rem' }}><strong>Time:</strong> {new Date(activity.timestamp).toLocaleTimeString()}</div>
+                              <div style={{ marginBottom: '0.25rem' }}><strong>Record ID:</strong> <span style={{ fontFamily: 'monospace', fontSize: '0.7rem' }}>{activity.id}</span></div>
                             </div>
                           </div>
 
                           {/* Work Description */}
-                          <div>
-                            <h4 style={{ color: '#10b981', fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem' }}>
+                          <div style={{
+                            padding: window.innerWidth <= 768 ? '0.75rem' : '1rem',
+                            background: 'rgba(16, 185, 129, 0.1)',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(16, 185, 129, 0.2)'
+                          }}>
+                            <h4 style={{ 
+                              color: '#10b981', 
+                              fontSize: window.innerWidth <= 768 ? '0.875rem' : '1rem', 
+                              fontWeight: '600', 
+                              marginBottom: '0.5rem',
+                              textAlign: window.innerWidth <= 768 ? 'center' : 'left'
+                            }}>
                               💼 Work Description
                             </h4>
                             <div style={{ 
                               color: '#dbeafe', 
-                              fontSize: '0.875rem', 
+                              fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem', 
                               lineHeight: '1.6',
                               background: 'rgba(255, 255, 255, 0.05)',
-                              padding: '1rem',
+                              padding: window.innerWidth <= 768 ? '0.75rem' : '1rem',
                               borderRadius: '8px',
-                              minHeight: '100px',
+                              minHeight: window.innerWidth <= 768 ? '80px' : '100px',
                               border: '1px solid rgba(255, 255, 255, 0.1)'
                             }}>
                               {activity.description || 'No work description provided for this activity.'}
@@ -1143,8 +1192,19 @@ export default function Dashboard() {
                           </div>
 
                           {/* File Attachment */}
-                          <div>
-                            <h4 style={{ color: '#f59e0b', fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem' }}>
+                          <div style={{
+                            padding: window.innerWidth <= 768 ? '0.75rem' : '1rem',
+                            background: 'rgba(245, 158, 11, 0.1)',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(245, 158, 11, 0.2)'
+                          }}>
+                            <h4 style={{ 
+                              color: '#f59e0b', 
+                              fontSize: window.innerWidth <= 768 ? '0.875rem' : '1rem', 
+                              fontWeight: '600', 
+                              marginBottom: '0.5rem',
+                              textAlign: window.innerWidth <= 768 ? 'center' : 'left'
+                            }}>
                               📎 Attachments
                             </h4>
                             <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
@@ -1248,21 +1308,74 @@ export default function Dashboard() {
                                 ⏰ Time Analysis
                               </h5>
                               <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div><strong>Date:</strong> {new Date(activity.timestamp).toLocaleDateString('en-US', { 
-                                  weekday: 'long', 
-                                  year: 'numeric', 
-                                  month: 'long', 
-                                  day: 'numeric' 
-                                })}</div>
-                                <div><strong>Time:</strong> {new Date(activity.timestamp).toLocaleTimeString('en-US', { 
-                                  hour: '2-digit', 
-                                  minute: '2-digit', 
-                                  second: '2-digit',
-                                  hour12: true 
-                                })}</div>
-                                <div><strong>Day of Week:</strong> {new Date(activity.timestamp).toLocaleDateString('en-US', { weekday: 'long' })}</div>
-                                <div><strong>Month:</strong> {new Date(activity.timestamp).toLocaleDateString('en-US', { month: 'long' })}</div>
-                                <div><strong>Year:</strong> {new Date(activity.timestamp).getFullYear()}</div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Date:</strong> 
+                                  <span style={{ 
+                                    color: '#10b981',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {new Date(activity.timestamp).toLocaleDateString('en-US', { 
+                                      weekday: 'long', 
+                                      year: 'numeric', 
+                                      month: 'long', 
+                                      day: 'numeric' 
+                                    })}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Time:</strong> 
+                                  <span style={{ 
+                                    color: '#059669',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem',
+                                    fontFamily: 'monospace',
+                                    background: 'rgba(16, 185, 129, 0.2)',
+                                    padding: '2px 6px',
+                                    borderRadius: '4px'
+                                  }}>
+                                    {new Date(activity.timestamp).toLocaleTimeString('en-US', { 
+                                      hour: '2-digit', 
+                                      minute: '2-digit', 
+                                      second: '2-digit',
+                                      hour12: true 
+                                    })}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Day of Week:</strong> 
+                                  <span style={{ 
+                                    color: '#10b981',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {new Date(activity.timestamp).toLocaleDateString('en-US', { weekday: 'long' })}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Month:</strong> 
+                                  <span style={{ 
+                                    color: '#059669',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {new Date(activity.timestamp).toLocaleDateString('en-US', { month: 'long' })}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Year:</strong> 
+                                  <span style={{ 
+                                    color: '#10b981',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem',
+                                    fontFamily: 'monospace',
+                                    background: 'rgba(16, 185, 129, 0.2)',
+                                    padding: '2px 6px',
+                                    borderRadius: '4px'
+                                  }}>
+                                    {new Date(activity.timestamp).getFullYear()}
+                                  </span>
+                                </div>
                               </div>
                             </div>
 
@@ -1277,19 +1390,59 @@ export default function Dashboard() {
                                 🔍 Activity Metadata
                               </h5>
                               <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div><strong>Record ID:</strong> <span style={{ fontFamily: 'monospace', background: 'rgba(0,0,0,0.3)', padding: '2px 6px', borderRadius: '4px' }}>{activity.id}</span></div>
-                                <div><strong>Action Type:</strong> 
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Record ID:</strong> 
+                                  <span style={{ 
+                                    fontFamily: 'monospace', 
+                                    background: 'rgba(0,0,0,0.3)', 
+                                    padding: '2px 6px', 
+                                    borderRadius: '4px',
+                                    color: '#60a5fa',
+                                    fontWeight: '600'
+                                  }}>
+                                    {activity.id}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Action Type:</strong> 
                                   <span style={{ 
                                     color: activity.action === 'sign-in' ? '#10b981' : '#ef4444',
-                                    fontWeight: 'bold',
+                                    fontWeight: '600',
                                     marginLeft: '0.5rem'
                                   }}>
                                     {activity.action === 'sign-in' ? '✅ Sign In' : '🚪 Sign Out'}
                                   </span>
                                 </div>
-                                <div><strong>Status:</strong> <span style={{ color: '#10b981', fontWeight: '600' }}>✓ Completed</span></div>
-                                <div><strong>User:</strong> {activity.username}</div>
-                                <div><strong>Session:</strong> {activity.action === 'sign-in' ? 'Started' : 'Ended'}</div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Status:</strong> 
+                                  <span style={{ 
+                                    color: '#10b981', 
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    ✓ Completed
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>User:</strong> 
+                                  <span style={{ 
+                                    color: '#f59e0b',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {activity.username}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Session:</strong> 
+                                  <span style={{ 
+                                    color: activity.action === 'sign-in' ? '#10b981' : '#ef4444',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {activity.action === 'sign-in' ? '🚀 Started' : '🏁 Ended'}
+                                  </span>
+                                </div>
                               </div>
                             </div>
 
@@ -1304,13 +1457,62 @@ export default function Dashboard() {
                                 💼 Work Summary
                               </h5>
                               <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div><strong>Description Length:</strong> {activity.description ? `${activity.description.length} characters` : 'No description'}</div>
-                                <div><strong>Has Attachments:</strong> {activity.uploadedFile ? '✅ Yes' : '❌ No'}</div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Description Length:</strong> 
+                                  <span style={{ 
+                                    color: '#f59e0b', 
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {activity.description ? `${activity.description.length} characters` : 'No description'}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Has Attachments:</strong> 
+                                  <span style={{ 
+                                    color: activity.uploadedFile ? '#10b981' : '#ef4444',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {activity.uploadedFile ? '✅ Yes' : '❌ No'}
+                                  </span>
+                                </div>
                                 {activity.uploadedFile && (
-                                  <div><strong>File Type:</strong> {activity.uploadedFile.split('.').pop()?.toUpperCase() || 'Unknown'}</div>
+                                  <div style={{ marginBottom: '0.5rem' }}>
+                                    <strong>File Type:</strong> 
+                                    <span style={{ 
+                                      color: '#8b5cf6',
+                                      fontWeight: '600',
+                                      marginLeft: '0.5rem',
+                                      fontFamily: 'monospace',
+                                      background: 'rgba(139, 92, 246, 0.2)',
+                                      padding: '2px 6px',
+                                      borderRadius: '4px'
+                                    }}>
+                                      {activity.uploadedFile.split('.').pop()?.toUpperCase() || 'Unknown'}
+                                    </span>
+                                  </div>
                                 )}
-                                <div><strong>Activity Category:</strong> {activity.action === 'sign-in' ? 'Arrival' : 'Departure'}</div>
-                                <div><strong>Work Session:</strong> {activity.action === 'sign-in' ? 'Beginning' : 'Completion'}</div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Activity Category:</strong> 
+                                  <span style={{ 
+                                    color: activity.action === 'sign-in' ? '#10b981' : '#ef4444',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {activity.action === 'sign-in' ? '🟢 Arrival' : '🔴 Departure'}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Work Session:</strong> 
+                                  <span style={{ 
+                                    color: activity.action === 'sign-in' ? '#3b82f6' : '#f59e0b',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {activity.action === 'sign-in' ? '🚀 Beginning' : '🏁 Completion'}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1333,11 +1535,65 @@ export default function Dashboard() {
                                 🖥️ System Information
                               </h5>
                               <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div><strong>Browser:</strong> {navigator.userAgent.includes('Chrome') ? 'Chrome' : navigator.userAgent.includes('Firefox') ? 'Firefox' : navigator.userAgent.includes('Safari') ? 'Safari' : 'Unknown'}</div>
-                                <div><strong>Platform:</strong> {navigator.platform}</div>
-                                <div><strong>Language:</strong> {navigator.language}</div>
-                                <div><strong>Online Status:</strong> <span style={{ color: '#10b981' }}>✓ Online</span></div>
-                                <div><strong>Timestamp:</strong> {new Date(activity.timestamp).toISOString()}</div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Browser:</strong> 
+                                  <span style={{ 
+                                    color: '#8b5cf6',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {navigator.userAgent.includes('Chrome') ? '🌐 Chrome' : navigator.userAgent.includes('Firefox') ? '🦊 Firefox' : navigator.userAgent.includes('Safari') ? '🍎 Safari' : '❓ Unknown'}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Platform:</strong> 
+                                  <span style={{ 
+                                    color: '#a78bfa',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem',
+                                    fontFamily: 'monospace',
+                                    background: 'rgba(139, 92, 246, 0.2)',
+                                    padding: '2px 6px',
+                                    borderRadius: '4px'
+                                  }}>
+                                    {navigator.platform}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Language:</strong> 
+                                  <span style={{ 
+                                    color: '#8b5cf6',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {navigator.language}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Online Status:</strong> 
+                                  <span style={{ 
+                                    color: '#10b981',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    ✓ Online
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Timestamp:</strong> 
+                                  <span style={{ 
+                                    color: '#a78bfa',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem',
+                                    fontFamily: 'monospace',
+                                    background: 'rgba(139, 92, 246, 0.2)',
+                                    padding: '2px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: '0.75rem'
+                                  }}>
+                                    {new Date(activity.timestamp).toISOString()}
+                                  </span>
+                                </div>
                               </div>
                             </div>
 
@@ -1352,22 +1608,80 @@ export default function Dashboard() {
                                 📍 Activity Context
                               </h5>
                               <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div><strong>Time Zone:</strong> {Intl.DateTimeFormat().resolvedOptions().timeZone}</div>
-                                <div><strong>Local Time:</strong> {new Date(activity.timestamp).toLocaleString()}</div>
-                                <div><strong>UTC Time:</strong> {new Date(activity.timestamp).toUTCString()}</div>
-                                <div><strong>Season:</strong> {(() => {
-                                  const month = new Date(activity.timestamp).getMonth();
-                                  if (month >= 2 && month <= 4) return '🌱 Spring';
-                                  if (month >= 5 && month <= 7) return '☀️ Summer';
-                                  if (month >= 8 && month <= 10) return '🍂 Fall';
-                                  return '❄️ Winter';
-                                })()}</div>
-                                <div><strong>Week Number:</strong> {(() => {
-                                  const date = new Date(activity.timestamp);
-                                  const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-                                  const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / (1000 * 60 * 60 * 24);
-                                  return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-                                })()}</div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Time Zone:</strong> 
+                                  <span style={{ 
+                                    color: '#ec4899',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem',
+                                    fontFamily: 'monospace',
+                                    background: 'rgba(236, 72, 153, 0.2)',
+                                    padding: '2px 6px',
+                                    borderRadius: '4px'
+                                  }}>
+                                    {Intl.DateTimeFormat().resolvedOptions().timeZone}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Local Time:</strong> 
+                                  <span style={{ 
+                                    color: '#f472b6',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {new Date(activity.timestamp).toLocaleString()}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>UTC Time:</strong> 
+                                  <span style={{ 
+                                    color: '#ec4899',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem',
+                                    fontFamily: 'monospace',
+                                    background: 'rgba(236, 72, 153, 0.2)',
+                                    padding: '2px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: '0.75rem'
+                                  }}>
+                                    {new Date(activity.timestamp).toUTCString()}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Season:</strong> 
+                                  <span style={{ 
+                                    color: '#f472b6',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem'
+                                  }}>
+                                    {(() => {
+                                      const month = new Date(activity.timestamp).getMonth();
+                                      if (month >= 2 && month <= 4) return '🌱 Spring';
+                                      if (month >= 5 && month <= 7) return '☀️ Summer';
+                                      if (month >= 8 && month <= 10) return '🍂 Fall';
+                                      return '❄️ Winter';
+                                    })()}
+                                  </span>
+                                </div>
+                                <div style={{ marginBottom: '0.5rem' }}>
+                                  <strong>Week Number:</strong> 
+                                  <span style={{ 
+                                    color: '#ec4899',
+                                    fontWeight: '600',
+                                    marginLeft: '0.5rem',
+                                    fontFamily: 'monospace',
+                                    background: 'rgba(236, 72, 153, 0.2)',
+                                    padding: '2px 6px',
+                                    borderRadius: '4px'
+                                  }}>
+                                    {(() => {
+                                      const date = new Date(activity.timestamp);
+                                      const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+                                      const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / (1000 * 60 * 60 * 24);
+                                      return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+                                    })()}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1395,24 +1709,25 @@ export default function Dashboard() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 1000
+            zIndex: 1000,
+            padding: '1rem'
           }}>
             <div style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
-              borderRadius: '24px',
-              padding: '2rem',
+              borderRadius: '16px',
+              padding: '1.5rem',
               maxWidth: '500px',
-              width: '90%',
+              width: '100%',
               maxHeight: '90vh',
               overflow: 'auto',
               boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
             }}>
               <h2 style={{ 
-                fontSize: '1.5rem', 
+                fontSize: '1.25rem', 
                 fontWeight: 'bold', 
                 color: '#1f2937', 
-                marginBottom: '1.5rem',
+                marginBottom: '1rem',
                 textAlign: 'center'
               }}>
                 🚪 Sign Out
@@ -1584,24 +1899,25 @@ export default function Dashboard() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 1000
+            zIndex: 1000,
+            padding: '1rem'
           }}>
             <div style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
-              borderRadius: '24px',
-              padding: '2rem',
+              borderRadius: '16px',
+              padding: '1.5rem',
               maxWidth: '600px',
-              width: '90%',
+              width: '100%',
               maxHeight: '90vh',
               overflow: 'auto',
               boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
             }}>
               <h2 style={{ 
-                fontSize: '1.5rem', 
+                fontSize: '1.25rem', 
                 fontWeight: 'bold', 
                 color: '#1f2937', 
-                marginBottom: '1.5rem',
+                marginBottom: '1rem',
                 textAlign: 'center'
               }}>
                 📋 Work Details
@@ -1701,15 +2017,16 @@ export default function Dashboard() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 1000
+            zIndex: 1000,
+            padding: '1rem'
           }}>
             <div style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
-              borderRadius: '24px',
-              padding: '2rem',
+              borderRadius: '16px',
+              padding: '1.5rem',
               maxWidth: '500px',
-              width: '90%',
+              width: '100%',
               maxHeight: '90vh',
               overflow: 'auto',
               boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
