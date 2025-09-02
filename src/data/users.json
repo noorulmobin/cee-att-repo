@@ -40,5 +40,12 @@
     "name": "mubeen",
     "email": "mubeen@1245.gmail.com",
     "role": "user"
+  },
+  {
+    "username": "ali khan",
+    "password": "ali!@34",
+    "name": "ali khan",
+    "email": "tosifsheraz5474@outlook.com",
+    "role": "user"
   }
 ]
