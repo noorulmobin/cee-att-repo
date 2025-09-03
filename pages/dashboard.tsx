@@ -1185,7 +1185,10 @@ export default function Dashboard() {
                               padding: window.innerWidth <= 768 ? '0.75rem' : '1rem',
                               borderRadius: '8px',
                               minHeight: window.innerWidth <= 768 ? '80px' : '100px',
-                              border: '1px solid rgba(255, 255, 255, 0.1)'
+                              border: '1px solid rgba(255, 255, 255, 0.1)',
+                              wordBreak: 'break-word',
+                              overflowWrap: 'break-word',
+                              whiteSpace: 'pre-wrap'
                             }}>
                               {activity.description || 'No work description provided for this activity.'}
                             </div>
@@ -1215,13 +1218,22 @@ export default function Dashboard() {
                                   borderRadius: '8px',
                                   padding: '1rem',
                                   display: 'flex',
-                                  alignItems: 'center',
+                                  alignItems: 'flex-start',
                                   gap: '0.75rem'
                                 }}>
                                   <span style={{ fontSize: '1.5rem' }}>📎</span>
-                                  <div>
-                                    <div style={{ fontWeight: '600', fontSize: '1rem' }}>{activity.uploadedFile}</div>
-                                    <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '0.25rem' }}>File attached to this record</div>
+                                  <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+                                    <div style={{ 
+                                      fontWeight: '600', 
+                                      fontSize: '1rem',
+                                      wordBreak: 'break-word',
+                                      overflowWrap: 'break-word'
+                                    }}>{activity.uploadedFile}</div>
+                                    <div style={{ 
+                                      fontSize: '0.75rem', 
+                                      color: '#9ca3af', 
+                                      marginTop: '0.25rem' 
+                                    }}>File attached to this record</div>
                                   </div>
                                 </div>
                               ) : (
@@ -1294,26 +1306,50 @@ export default function Dashboard() {
                           
                           <div style={{
                             display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                            gap: '1rem'
+                            gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
+                            gap: window.innerWidth <= 768 ? '0.75rem' : '1rem'
                           }}>
                             {/* Time Analysis */}
                             <div style={{
                               background: 'rgba(16, 185, 129, 0.1)',
                               border: '1px solid rgba(16, 185, 129, 0.2)',
-                              borderRadius: '12px',
-                              padding: '1rem'
+                              borderRadius: window.innerWidth <= 768 ? '16px' : '12px',
+                              padding: window.innerWidth <= 768 ? '1.25rem' : '1rem'
                             }}>
-                              <h5 style={{ color: '#10b981', fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem' }}>
+                              <h5 style={{ 
+                                color: '#10b981', 
+                                fontSize: window.innerWidth <= 768 ? '1.125rem' : '1rem', 
+                                fontWeight: '600', 
+                                marginBottom: window.innerWidth <= 768 ? '1rem' : '0.75rem',
+                                textAlign: window.innerWidth <= 768 ? 'center' : 'left'
+                              }}>
                                 ⏰ Time Analysis
                               </h5>
-                              <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Date:</strong> 
+                              <div style={{ 
+                                color: '#dbeafe', 
+                                fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem', 
+                                lineHeight: '1.6' 
+                              }}>
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(16, 185, 129, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Date:</strong> 
                                   <span style={{ 
                                     color: '#10b981',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {new Date(activity.timestamp).toLocaleDateString('en-US', { 
                                       weekday: 'long', 
@@ -1323,16 +1359,30 @@ export default function Dashboard() {
                                     })}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Time:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(16, 185, 129, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Time:</strong> 
                                   <span style={{ 
                                     color: '#059669',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem',
                                     fontFamily: 'monospace',
                                     background: 'rgba(16, 185, 129, 0.2)',
-                                    padding: '2px 6px',
-                                    borderRadius: '4px'
+                                    padding: window.innerWidth <= 768 ? '4px 8px' : '2px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {new Date(activity.timestamp).toLocaleTimeString('en-US', { 
                                       hour: '2-digit', 
@@ -1342,36 +1392,78 @@ export default function Dashboard() {
                                     })}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Day of Week:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(16, 185, 129, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Day of Week:</strong> 
                                   <span style={{ 
                                     color: '#10b981',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {new Date(activity.timestamp).toLocaleDateString('en-US', { weekday: 'long' })}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Month:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(16, 185, 129, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Month:</strong> 
                                   <span style={{ 
                                     color: '#059669',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {new Date(activity.timestamp).toLocaleDateString('en-US', { month: 'long' })}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Year:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(16, 185, 129, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Year:</strong> 
                                   <span style={{ 
                                     color: '#10b981',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem',
                                     fontFamily: 'monospace',
                                     background: 'rgba(16, 185, 129, 0.2)',
-                                    padding: '2px 6px',
-                                    borderRadius: '4px'
+                                    padding: window.innerWidth <= 768 ? '4px 8px' : '2px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {new Date(activity.timestamp).getFullYear()}
                                   </span>
@@ -1383,62 +1475,143 @@ export default function Dashboard() {
                             <div style={{
                               background: 'rgba(59, 130, 246, 0.1)',
                               border: '1px solid rgba(59, 130, 246, 0.2)',
-                              borderRadius: '12px',
-                              padding: '1rem'
+                              borderRadius: window.innerWidth <= 768 ? '16px' : '12px',
+                              padding: window.innerWidth <= 768 ? '1.25rem' : '1rem'
                             }}>
-                              <h5 style={{ color: '#60a5fa', fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem' }}>
+                              <h5 style={{ 
+                                color: '#60a5fa', 
+                                fontSize: window.innerWidth <= 768 ? '1.125rem' : '1rem', 
+                                fontWeight: '600', 
+                                marginBottom: window.innerWidth <= 768 ? '1rem' : '0.75rem',
+                                textAlign: window.innerWidth <= 768 ? 'center' : 'left'
+                              }}>
                                 🔍 Activity Metadata
                               </h5>
-                              <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Record ID:</strong> 
+                              <div style={{ 
+                                color: '#dbeafe', 
+                                fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem', 
+                                lineHeight: '1.6' 
+                              }}>
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Record ID:</strong> 
                                   <span style={{ 
                                     fontFamily: 'monospace', 
                                     background: 'rgba(0,0,0,0.3)', 
-                                    padding: '2px 6px', 
+                                    padding: window.innerWidth <= 768 ? '4px 8px' : '2px 6px', 
                                     borderRadius: '4px',
                                     color: '#60a5fa',
-                                    fontWeight: '600'
+                                    fontWeight: '600',
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {activity.id}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Action Type:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Action Type:</strong> 
                                   <span style={{ 
                                     color: activity.action === 'sign-in' ? '#10b981' : '#ef4444',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {activity.action === 'sign-in' ? '✅ Sign In' : '🚪 Sign Out'}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Status:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Status:</strong> 
                                   <span style={{ 
                                     color: '#10b981', 
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     ✓ Completed
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>User:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>User:</strong> 
                                   <span style={{ 
                                     color: '#f59e0b',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {activity.username}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Session:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Session:</strong> 
                                   <span style={{ 
                                     color: activity.action === 'sign-in' ? '#10b981' : '#ef4444',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {activity.action === 'sign-in' ? '🚀 Started' : '🏁 Ended'}
                                   </span>
@@ -1450,65 +1623,145 @@ export default function Dashboard() {
                             <div style={{
                               background: 'rgba(245, 158, 11, 0.1)',
                               border: '1px solid rgba(245, 158, 11, 0.2)',
-                              borderRadius: '12px',
-                              padding: '1rem'
+                              borderRadius: window.innerWidth <= 768 ? '16px' : '12px',
+                              padding: window.innerWidth <= 768 ? '1.25rem' : '1rem'
                             }}>
-                              <h5 style={{ color: '#f59e0b', fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem' }}>
+                              <h5 style={{ 
+                                color: '#f59e0b', 
+                                fontSize: window.innerWidth <= 768 ? '1.125rem' : '1rem', 
+                                fontWeight: '600', 
+                                marginBottom: window.innerWidth <= 768 ? '1rem' : '0.75rem',
+                                textAlign: window.innerWidth <= 768 ? 'center' : 'left'
+                              }}>
                                 💼 Work Summary
                               </h5>
-                              <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Description Length:</strong> 
+                              <div style={{ 
+                                color: '#dbeafe', 
+                                fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem', 
+                                lineHeight: '1.6' 
+                              }}>
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(245, 158, 11, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Description Length:</strong> 
                                   <span style={{ 
                                     color: '#f59e0b', 
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {activity.description ? `${activity.description.length} characters` : 'No description'}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Has Attachments:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(245, 158, 11, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Has Attachments:</strong> 
                                   <span style={{ 
                                     color: activity.uploadedFile ? '#10b981' : '#ef4444',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {activity.uploadedFile ? '✅ Yes' : '❌ No'}
                                   </span>
                                 </div>
                                 {activity.uploadedFile && (
-                                  <div style={{ marginBottom: '0.5rem' }}>
-                                    <strong>File Type:</strong> 
+                                  <div style={{ 
+                                    marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                    padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                    background: window.innerWidth <= 768 ? 'rgba(245, 158, 11, 0.05)' : 'transparent',
+                                    borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    alignItems: 'flex-start',
+                                    gap: '0.5rem'
+                                  }}>
+                                    <strong style={{ 
+                                      fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                      flexShrink: 0
+                                    }}>File Type:</strong> 
                                     <span style={{ 
                                       color: '#8b5cf6',
                                       fontWeight: '600',
-                                      marginLeft: '0.5rem',
                                       fontFamily: 'monospace',
                                       background: 'rgba(139, 92, 246, 0.2)',
-                                      padding: '2px 6px',
-                                      borderRadius: '4px'
+                                      padding: window.innerWidth <= 768 ? '4px 8px' : '2px 6px',
+                                      borderRadius: '4px',
+                                      fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                      wordBreak: 'break-word',
+                                      flex: '1 1 auto'
                                     }}>
                                       {activity.uploadedFile.split('.').pop()?.toUpperCase() || 'Unknown'}
                                     </span>
                                   </div>
                                 )}
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Activity Category:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(245, 158, 11, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Activity Category:</strong> 
                                   <span style={{ 
                                     color: activity.action === 'sign-in' ? '#10b981' : '#ef4444',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {activity.action === 'sign-in' ? '🟢 Arrival' : '🔴 Departure'}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Work Session:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(245, 158, 11, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Work Session:</strong> 
                                   <span style={{ 
                                     color: activity.action === 'sign-in' ? '#3b82f6' : '#f59e0b',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {activity.action === 'sign-in' ? '🚀 Beginning' : '🏁 Completion'}
                                   </span>
@@ -1521,75 +1774,154 @@ export default function Dashboard() {
                           <div style={{ 
                             marginTop: '1rem',
                             display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                            gap: '1rem'
+                            gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : 'repeat(auto-fit, minmax(250px, 1fr))',
+                            gap: window.innerWidth <= 768 ? '0.75rem' : '1rem'
                           }}>
                             {/* System Information */}
                             <div style={{
                               background: 'rgba(139, 92, 246, 0.1)',
                               border: '1px solid rgba(139, 92, 246, 0.2)',
-                              borderRadius: '12px',
-                              padding: '1rem'
+                              borderRadius: window.innerWidth <= 768 ? '16px' : '12px',
+                              padding: window.innerWidth <= 768 ? '1.25rem' : '1rem'
                             }}>
-                              <h5 style={{ color: '#8b5cf6', fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem' }}>
+                              <h5 style={{ 
+                                color: '#8b5cf6', 
+                                fontSize: window.innerWidth <= 768 ? '1.125rem' : '1rem', 
+                                fontWeight: '600', 
+                                marginBottom: window.innerWidth <= 768 ? '1rem' : '0.75rem',
+                                textAlign: window.innerWidth <= 768 ? 'center' : 'left'
+                              }}>
                                 🖥️ System Information
                               </h5>
-                              <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Browser:</strong> 
+                              <div style={{ 
+                                color: '#dbeafe', 
+                                fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem', 
+                                lineHeight: '1.6' 
+                              }}>
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(139, 92, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Browser:</strong> 
                                   <span style={{ 
                                     color: '#8b5cf6',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {navigator.userAgent.includes('Chrome') ? '🌐 Chrome' : navigator.userAgent.includes('Firefox') ? '🦊 Firefox' : navigator.userAgent.includes('Safari') ? '🍎 Safari' : '❓ Unknown'}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Platform:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(139, 92, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Platform:</strong> 
                                   <span style={{ 
                                     color: '#a78bfa',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem',
                                     fontFamily: 'monospace',
                                     background: 'rgba(139, 92, 246, 0.2)',
-                                    padding: '2px 6px',
-                                    borderRadius: '4px'
+                                    padding: window.innerWidth <= 768 ? '4px 8px' : '2px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {navigator.platform}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Language:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(139, 92, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Language:</strong> 
                                   <span style={{ 
                                     color: '#8b5cf6',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {navigator.language}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Online Status:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(139, 92, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Online Status:</strong> 
                                   <span style={{ 
                                     color: '#10b981',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     ✓ Online
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Timestamp:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(139, 92, 246, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Timestamp:</strong> 
                                   <span style={{ 
                                     color: '#a78bfa',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem',
                                     fontFamily: 'monospace',
                                     background: 'rgba(139, 92, 246, 0.2)',
-                                    padding: '2px 6px',
+                                    padding: window.innerWidth <= 768 ? '4px 8px' : '2px 6px',
                                     borderRadius: '4px',
-                                    fontSize: '0.75rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {new Date(activity.timestamp).toISOString()}
                                   </span>
@@ -1601,58 +1933,123 @@ export default function Dashboard() {
                             <div style={{
                               background: 'rgba(236, 72, 153, 0.1)',
                               border: '1px solid rgba(236, 72, 153, 0.2)',
-                              borderRadius: '12px',
-                              padding: '1rem'
+                              borderRadius: window.innerWidth <= 768 ? '16px' : '12px',
+                              padding: window.innerWidth <= 768 ? '1.25rem' : '1rem'
                             }}>
-                              <h5 style={{ color: '#ec4899', fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem' }}>
+                              <h5 style={{ 
+                                color: '#ec4899', 
+                                fontSize: window.innerWidth <= 768 ? '1.125rem' : '1rem', 
+                                fontWeight: '600', 
+                                marginBottom: window.innerWidth <= 768 ? '1rem' : '0.75rem',
+                                textAlign: window.innerWidth <= 768 ? 'center' : 'left'
+                              }}>
                                 📍 Activity Context
                               </h5>
-                              <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Time Zone:</strong> 
+                              <div style={{ 
+                                color: '#dbeafe', 
+                                fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem', 
+                                lineHeight: '1.6' 
+                              }}>
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(236, 72, 153, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Time Zone:</strong> 
                                   <span style={{ 
                                     color: '#ec4899',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem',
                                     fontFamily: 'monospace',
                                     background: 'rgba(236, 72, 153, 0.2)',
-                                    padding: '2px 6px',
-                                    borderRadius: '4px'
+                                    padding: window.innerWidth <= 768 ? '4px 8px' : '2px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {Intl.DateTimeFormat().resolvedOptions().timeZone}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Local Time:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(236, 72, 153, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Local Time:</strong> 
                                   <span style={{ 
                                     color: '#f472b6',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {new Date(activity.timestamp).toLocaleString()}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>UTC Time:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(236, 72, 153, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>UTC Time:</strong> 
                                   <span style={{ 
                                     color: '#ec4899',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem',
                                     fontFamily: 'monospace',
                                     background: 'rgba(236, 72, 153, 0.2)',
-                                    padding: '2px 6px',
+                                    padding: window.innerWidth <= 768 ? '4px 8px' : '2px 6px',
                                     borderRadius: '4px',
-                                    fontSize: '0.75rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {new Date(activity.timestamp).toUTCString()}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Season:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(236, 72, 153, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Season:</strong> 
                                   <span style={{ 
                                     color: '#f472b6',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem'
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {(() => {
                                       const month = new Date(activity.timestamp).getMonth();
@@ -1663,16 +2060,30 @@ export default function Dashboard() {
                                     })()}
                                   </span>
                                 </div>
-                                <div style={{ marginBottom: '0.5rem' }}>
-                                  <strong>Week Number:</strong> 
+                                <div style={{ 
+                                  marginBottom: window.innerWidth <= 768 ? '0.75rem' : '0.5rem',
+                                  padding: window.innerWidth <= 768 ? '0.5rem' : '0',
+                                  background: window.innerWidth <= 768 ? 'rgba(236, 72, 153, 0.05)' : 'transparent',
+                                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                                  display: 'flex',
+                                  flexWrap: 'wrap',
+                                  alignItems: 'flex-start',
+                                  gap: '0.5rem'
+                                }}>
+                                  <strong style={{ 
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    flexShrink: 0
+                                  }}>Week Number:</strong> 
                                   <span style={{ 
                                     color: '#ec4899',
                                     fontWeight: '600',
-                                    marginLeft: '0.5rem',
                                     fontFamily: 'monospace',
                                     background: 'rgba(236, 72, 153, 0.2)',
-                                    padding: '2px 6px',
-                                    borderRadius: '4px'
+                                    padding: window.innerWidth <= 768 ? '4px 8px' : '2px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: window.innerWidth <= 768 ? '0.875rem' : '0.875rem',
+                                    wordBreak: 'break-word',
+                                    flex: '1 1 auto'
                                   }}>
                                     {(() => {
                                       const date = new Date(activity.timestamp);
