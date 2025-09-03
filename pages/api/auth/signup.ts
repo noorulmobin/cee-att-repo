@@ -2,7 +2,21 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+// Try to import Supabase, fallback to local storage if not available
+let supabase: any = null;
+try {
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    const { createClient } = require('@supabase/supabase-js');
+    supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
+  }
+} catch (error) {
+  console.log('Supabase not configured, using local storage');
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -14,7 +28,65 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(400).json({ message: 'Username, password, name, and email are required' });
     }
 
-    // Read existing users
+    // If Supabase is available, use it
+    if (supabase) {
+      try {
+        // Check if username already exists
+        const { data: existingUser } = await supabase
+          .from('users')
+          .select('username')
+          .eq('username', username)
+          .single();
+
+        if (existingUser) {
+          return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        // Check if email already exists
+        const { data: existingEmail } = await supabase
+          .from('users')
+          .select('email')
+          .eq('email', email)
+          .single();
+
+        if (existingEmail) {
+          return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        // Create new user in Supabase
+        const { data: newUser, error: insertError } = await supabase
+          .from('users')
+          .insert([
+            {
+              username,
+              password,
+              name,
+              email,
+              role: 'user'
+            }
+          ])
+          .select()
+          .single();
+
+        if (insertError) {
+          console.error('Supabase insert error:', insertError);
+          return res.status(500).json({ message: 'Failed to create user' });
+        }
+
+        // Return success (without password)
+        const { password: _, ...userWithoutPassword } = newUser;
+        return res.status(201).json({
+          message: 'User created successfully',
+          user: userWithoutPassword
+        });
+
+      } catch (dbError) {
+        console.log('Database error, falling back to local storage:', dbError);
+        // Fall through to local storage
+      }
+    }
+
+    // Fallback to local JSON storage
     const usersPath = path.join(process.cwd(), 'src', 'data', 'users.json');
     let users = [];
     

@@ -61,5 +61,61 @@
     "name": "kamran",
     "email": "kamrankamrankhan825@gmail.com",
     "role": "user"
+  },
+  {
+    "username": "testuser123",
+    "password": "test123",
+    "name": "Test User",
+    "email": "test123@example.com",
+    "role": "user"
+  },
+  {
+    "username": "candi khan",
+    "password": "didar123",
+    "name": "candi",
+    "email": "noorulmobin9397@gmail.com",
+    "role": "user"
+  },
+  {
+    "username": "kareem",
+    "password": "sdvdgd",
+    "name": "kareem",
+    "email": "kamrannkhan825@gmail.com",
+    "role": "user"
+  },
+  {
+    "username": "newuser456",
+    "password": "password123",
+    "name": "New User Test",
+    "email": "newuser456@example.com",
+    "role": "user"
+  },
+  {
+    "username": "unlimiteduser789",
+    "password": "password123",
+    "name": "Unlimited User",
+    "email": "unlimiteduser789@example.com",
+    "role": "user"
+  },
+  {
+    "username": "azam khan",
+    "password": "akbar123",
+    "name": "azam",
+    "email": "akbar@gmail.com",
+    "role": "user"
+  },
+  {
+    "username": "rturthj",
+    "password": "karman",
+    "name": "dfgdfb",
+    "email": "kareem@gmail.com",
+    "role": "user"
+  },
+  {
+    "username": "productionuser",
+    "password": "password123",
+    "name": "Production User",
+    "email": "productionuser@example.com",
+    "role": "user"
   }
 ]
