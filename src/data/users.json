@@ -47,5 +47,12 @@
     "name": "ali khan",
     "email": "tosifsheraz5474@outlook.com",
     "role": "user"
+  },
+  {
+    "username": "alikhan",
+    "password": "ali!@34",
+    "name": "ali",
+    "email": "candikk825@gmail.com",
+    "role": "user"
   }
 ]
