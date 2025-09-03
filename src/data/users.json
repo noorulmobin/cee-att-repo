@@ -54,5 +54,12 @@
     "name": "ali",
     "email": "candikk825@gmail.com",
     "role": "user"
+  },
+  {
+    "username": "kamran khan",
+    "password": "khan123",
+    "name": "kamran",
+    "email": "kamrankamrankhan825@gmail.com",
+    "role": "user"
   }
 ]
