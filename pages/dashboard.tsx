@@ -97,7 +97,7 @@ export default function Dashboard() {
 
   const loadAllUsers = async () => {
     try {
-      const response = await fetch('/api/auth/check-users');
+      const response = await fetch('/api/auth/get-users');
       
       if (response.ok) {
         const users = await response.json();
