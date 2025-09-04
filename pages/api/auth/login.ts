@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs';
-import path from 'path';
+import { storage } from '../../../src/lib/storage';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -14,15 +13,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
-    // Read users from JSON file
-    const usersPath = path.join(process.cwd(), 'src', 'data', 'users.json');
-    const usersData = fs.readFileSync(usersPath, 'utf8');
-    const users = JSON.parse(usersData);
+    // Find user using storage
+    const user = storage.findUserByUsername(username);
 
-    // Find user
-    const user = users.find((u: any) => u.username === username && u.password === password);
-
-    if (user) {
+    if (user && user.password === password) {
       // Return user data (excluding password)
       const { password: _, ...userWithoutPassword } = user;
       return res.status(200).json({

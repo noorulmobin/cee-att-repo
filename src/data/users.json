@@ -145,5 +145,12 @@
     "name": "aleem",
     "email": "aleem@gmail.com",
     "role": "user"
+  },
+  {
+    "username": "uniqueuser789",
+    "password": "password123",
+    "name": "Unique User",
+    "email": "uniqueuser789@example.com",
+    "role": "user"
   }
 ]
