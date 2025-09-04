@@ -637,7 +637,7 @@ export default function Dashboard() {
           </div>
 
           {/* Admin Panel Toggle */}
-          {(user.role === 'admin') && (
+          {(user.role === 'admin' || user.role === 'ceo') && (
             <div style={{ textAlign: 'center', marginTop: '1rem' }}>
               <button
                 onClick={toggleAdminPanel}
@@ -677,7 +677,7 @@ export default function Dashboard() {
           gap: '1.5rem', 
           marginBottom: '2rem' 
         }}>
-          {user.role === 'admin' ? (
+          {(user.role === 'admin' || user.role === 'ceo') ? (
             // Admin sees general statistics
             <>
               <div style={{
@@ -827,7 +827,7 @@ export default function Dashboard() {
         </div>
 
         {/* Quick Actions - Now positioned after statistics and before activity records */}
-        {user.role !== 'admin' && (
+        {user.role !== 'admin' && user.role !== 'ceo' && (
           <div style={{
             background: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(20px)',
@@ -981,7 +981,7 @@ export default function Dashboard() {
         )}
 
         {/* Personal Activity Records for Regular Users */}
-        {user.role !== 'admin' && (
+        {user.role !== 'admin' && user.role !== 'ceo' && (
           <div style={{
             background: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(20px)',
@@ -2619,7 +2619,7 @@ export default function Dashboard() {
         )}
 
         {/* Admin Panel */}
-        {showAdminPanel && user.role === 'admin' && (
+        {showAdminPanel && (user.role === 'admin' || user.role === 'ceo') && (
           <div style={{
             background: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(20px)',

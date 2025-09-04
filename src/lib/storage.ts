@@ -27,7 +27,7 @@ const defaultUsers: User[] = [
     password: 'ceo2024',
     name: 'Chief Executive Officer',
     email: 'ceo@company.com',
-    role: 'ceo'
+    role: 'admin'
   }
 ];
 

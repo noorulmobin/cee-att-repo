@@ -31,7 +31,7 @@ export default function LoginPage() {
 
       if (response.ok) {
         // Check if user is admin/CEO and show secure access popup
-        if (data.user.role === 'admin') {
+        if (data.user.role === 'admin' || data.user.role === 'ceo') {
           setShowSecureAccess(true);
         } else {
           // Regular user - proceed to dashboard
