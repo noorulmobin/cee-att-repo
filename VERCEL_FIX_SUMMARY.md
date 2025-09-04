@@ -88,3 +88,4 @@ Your app will work perfectly on:
 4. **Read guide**: `VERCEL_DEPLOYMENT_GUIDE.md`
 
 **Your app is ready for Vercel deployment! Just need 5 minutes to set up Supabase.** 🚀
+

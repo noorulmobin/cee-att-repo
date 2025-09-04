@@ -52,3 +52,4 @@ Your app is working locally but not on Vercel because Vercel doesn't support per
 - ✅ **Database Service**: Supports both local and Supabase
 
 **After Supabase setup, your app will work perfectly on both local and Vercel!** 🚀
+

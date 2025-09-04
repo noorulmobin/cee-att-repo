@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { db } from '../../../src/lib/database';
+import { storage } from '../../../src/lib/storage';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
@@ -7,8 +7,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Check if users exist using database service
-    const hasUsers = await db.hasUsers();
+    // Check if users exist using storage service
+    const users = storage.getUsers();
+    const hasUsers = users.length > 0;
 
     return res.status(200).json({ hasUsers });
   } catch (error) {

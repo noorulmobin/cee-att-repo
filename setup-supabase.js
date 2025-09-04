@@ -55,3 +55,4 @@ if (!fs.existsSync(envPath)) {
   console.log('   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url');
   console.log('   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key\n');
 }
+

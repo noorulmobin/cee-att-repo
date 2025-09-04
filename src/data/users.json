@@ -179,5 +179,21 @@
     "role": "user",
     "id": 25,
     "created_at": "2025-09-04T01:38:16.833Z"
+  },
+  {
+    "username": "kumar",
+    "password": "kumar123",
+    "name": "kumar",
+    "email": "kumar@gmail.com",
+    "role": "user",
+    "id": 26,
+    "created_at": "2025-09-04T16:17:18.136Z"
+  },
+  {
+    "username": "testuser",
+    "password": "test123",
+    "name": "Test User",
+    "email": "test@example.com",
+    "role": "user"
   }
 ]
