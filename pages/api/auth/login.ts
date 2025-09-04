@@ -1,20 +1,37 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs';
-import path from 'path';
 
-// Try to import Supabase, fallback to local storage if not available
-let supabase: any = null;
-try {
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    const { createClient } = require('@supabase/supabase-js');
-    supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    );
-  }
-} catch (error) {
-  console.log('Supabase not configured, using local storage');
+// Simple in-memory database for Vercel compatibility
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  name: string;
+  password: string;
+  role: 'user' | 'admin';
+  created_at: string;
 }
+
+// Global in-memory storage (shared across all API calls)
+let users: User[] = [
+  {
+    id: '1',
+    username: 'admin',
+    email: 'admin@company.com',
+    name: 'System Administrator',
+    password: 'admin123',
+    role: 'admin',
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '2',
+    username: 'ceo',
+    email: 'ceo@company.com',
+    name: 'Chief Executive Officer',
+    password: 'ceo2024',
+    role: 'admin',
+    created_at: new Date().toISOString()
+  }
+];
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -28,40 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
-    // If Supabase is available, use it
-    if (supabase) {
-      try {
-        // Find user in Supabase
-        const { data: user, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('username', username)
-          .eq('password', password)
-          .single();
-
-        if (error || !user) {
-          return res.status(401).json({ message: 'Invalid username or password' });
-        }
-
-        // Return user data (excluding password)
-        const { password: _, ...userWithoutPassword } = user;
-        return res.status(200).json({
-          message: 'Login successful',
-          user: userWithoutPassword
-        });
-
-      } catch (dbError) {
-        console.log('Database error, falling back to local storage:', dbError);
-        // Fall through to local storage
-      }
-    }
-
-    // Fallback to local JSON storage
-    const usersPath = path.join(process.cwd(), 'src', 'data', 'users.json');
-    const usersData = fs.readFileSync(usersPath, 'utf8');
-    const users = JSON.parse(usersData);
-
-    // Find user
+    // Find user in the users array
     const user = users.find((u: any) => u.username === username && u.password === password);
 
     if (user) {

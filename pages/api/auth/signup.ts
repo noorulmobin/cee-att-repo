@@ -1,20 +1,58 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs';
-import path from 'path';
 
-// Try to import Supabase, fallback to local storage if not available
-let supabase: any = null;
-try {
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    const { createClient } = require('@supabase/supabase-js');
-    supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    );
-  }
-} catch (error) {
-  console.log('Supabase not configured, using local storage');
+// Simple in-memory database for Vercel compatibility
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  name: string;
+  password: string;
+  role: 'user' | 'admin';
+  created_at: string;
 }
+
+// Global in-memory storage (shared across all API calls)
+let users: User[] = [
+  {
+    id: '1',
+    username: 'admin',
+    email: 'admin@company.com',
+    name: 'System Administrator',
+    password: 'admin123',
+    role: 'admin',
+    created_at: new Date().toISOString()
+  },
+  {
+    id: '2',
+    username: 'ceo',
+    email: 'ceo@company.com',
+    name: 'Chief Executive Officer',
+    password: 'ceo2024',
+    role: 'admin',
+    created_at: new Date().toISOString()
+  }
+];
+
+// User management functions
+const userDB = {
+  findByUsername: (username: string): User | undefined => 
+    users.find(u => u.username === username),
+  findByEmail: (email: string): User | undefined => 
+    users.find(u => u.email === email),
+  create: (userData: Omit<User, 'id' | 'created_at'>): User => {
+    const newUser: User = {
+      id: (users.length + 1).toString(),
+      ...userData,
+      created_at: new Date().toISOString()
+    };
+    users.push(newUser);
+    return newUser;
+  },
+  usernameExists: (username: string): boolean => 
+    users.some(u => u.username === username),
+  emailExists: (email: string): boolean => 
+    users.some(u => u.email === email)
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -28,97 +66,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: 'Username, password, name, and email are required' });
     }
 
-    // If Supabase is available, use it
-    if (supabase) {
-      try {
-        // Check if username already exists
-        const { data: existingUser } = await supabase
-          .from('users')
-          .select('username')
-          .eq('username', username)
-          .single();
-
-        if (existingUser) {
-          return res.status(400).json({ message: 'Username already exists' });
-        }
-
-        // Check if email already exists
-        const { data: existingEmail } = await supabase
-          .from('users')
-          .select('email')
-          .eq('email', email)
-          .single();
-
-        if (existingEmail) {
-          return res.status(400).json({ message: 'Email already exists' });
-        }
-
-        // Create new user in Supabase
-        const { data: newUser, error: insertError } = await supabase
-          .from('users')
-          .insert([
-            {
-              username,
-              password,
-              name,
-              email,
-              role: 'user'
-            }
-          ])
-          .select()
-          .single();
-
-        if (insertError) {
-          console.error('Supabase insert error:', insertError);
-          return res.status(500).json({ message: 'Failed to create user' });
-        }
-
-        // Return success (without password)
-        const { password: _, ...userWithoutPassword } = newUser;
-        return res.status(201).json({
-          message: 'User created successfully',
-          user: userWithoutPassword
-        });
-
-      } catch (dbError) {
-        console.log('Database error, falling back to local storage:', dbError);
-        // Fall through to local storage
-      }
-    }
-
-    // Fallback to local JSON storage
-    const usersPath = path.join(process.cwd(), 'src', 'data', 'users.json');
-    let users = [];
-    
-    if (fs.existsSync(usersPath)) {
-      const usersData = fs.readFileSync(usersPath, 'utf8');
-      users = JSON.parse(usersData);
-    }
-
     // Check if username already exists
-    if (users.find((u: any) => u.username === username)) {
+    if (userDB.usernameExists(username)) {
       return res.status(400).json({ message: 'Username already exists' });
     }
 
     // Check if email already exists
-    if (users.find((u: any) => u.email === email)) {
+    if (userDB.emailExists(email)) {
       return res.status(400).json({ message: 'Email already exists' });
     }
 
-    // Create new user (default role is 'user')
-    const newUser = {
+    // Create new user
+    const newUser = userDB.create({
       username,
       password,
       name,
       email,
-      role: 'user' // Default role for new signups
-    };
-
-    // Add to users array
-    users.push(newUser);
-
-    // Write back to file
-    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+      role: 'user'
+    });
 
     // Return success (without password)
     const { password: _, ...userWithoutPassword } = newUser;
@@ -132,3 +97,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+// Export users array for login API to use
+export { users };

@@ -117,5 +117,12 @@
     "name": "Production User",
     "email": "productionuser@example.com",
     "role": "user"
+  },
+  {
+    "username": "choko",
+    "password": "choko123",
+    "name": "khan",
+    "email": "choko@gmail.com",
+    "role": "user"
   }
 ]
