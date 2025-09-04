@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { storage } from '../../../src/lib/storage';
+import { db } from '../../../src/lib/database';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -13,8 +13,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
-    // Find user using storage
-    const user = storage.findUserByUsername(username);
+    // Find user using database service
+    const user = await db.findUserByUsername(username);
 
     if (user && user.password === password) {
       // Return user data (excluding password)

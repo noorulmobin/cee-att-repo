@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { storage } from '../../../src/lib/storage';
+import { db } from '../../../src/lib/database';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -14,26 +14,27 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     // Check if username already exists
-    if (storage.findUserByUsername(username)) {
+    const existingUserByUsername = await db.findUserByUsername(username);
+    if (existingUserByUsername) {
       return res.status(400).json({ message: 'Username already exists' });
     }
 
     // Check if email already exists
-    if (storage.findUserByEmail(email)) {
+    const existingUserByEmail = await db.findUserByEmail(email);
+    if (existingUserByEmail) {
       return res.status(400).json({ message: 'Email already exists' });
     }
 
-    const newUser = {
+    // Create new user
+    const newUser = await db.createUser({
       username,
       password,
       name,
       email,
       role: 'user'
-    };
+    });
 
-    // Add user to storage
-    storage.addUser(newUser);
-
+    // Return user without password
     const { password: _, ...userWithoutPassword } = newUser;
     return res.status(201).json({
       message: 'User created successfully',
