@@ -43,6 +43,8 @@ export default function Dashboard() {
   const [editingActivity, setEditingActivity] = useState<ActivityUpdate | null>(null);
   const [editDescription, setEditDescription] = useState('');
   const [editFile, setEditFile] = useState<File | null>(null);
+  const [showAttachmentModal, setShowAttachmentModal] = useState(false);
+  const [selectedAttachment, setSelectedAttachment] = useState<ActivityUpdate | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -474,6 +476,75 @@ export default function Dashboard() {
   const viewUserFullHistory = (username: string) => {
     alert(`Viewing full history for user: ${username}`);
     // In a real app, you would navigate to a dedicated user history page
+  };
+
+  const openAttachmentModal = (activity: ActivityUpdate) => {
+    setSelectedAttachment(activity);
+    setShowAttachmentModal(true);
+  };
+
+  const closeAttachmentModal = () => {
+    setShowAttachmentModal(false);
+    setSelectedAttachment(null);
+  };
+
+  const downloadFile = (activity: ActivityUpdate) => {
+    if (!activity.uploadedFile) return;
+    
+    // Create a simple file with the activity information
+    const fileContent = `Activity Record
+================
+
+Username: ${activity.username}
+Action: ${activity.action}
+Date: ${new Date(activity.timestamp).toLocaleString()}
+Description: ${activity.description || 'No description provided'}
+File: ${activity.uploadedFile}
+
+Generated on: ${new Date().toLocaleString()}`;
+
+    // Create a blob with the content
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    
+    // Create a temporary link element and trigger download
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${activity.uploadedFile}_details.txt`;
+    document.body.appendChild(link);
+    link.click();
+    
+    // Clean up
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
+
+  const downloadOriginalFile = (activity: ActivityUpdate) => {
+    if (!activity.uploadedFile) return;
+    
+    // Create a placeholder file that represents the original file
+    const fileContent = `Original File: ${activity.uploadedFile}
+Uploaded by: ${activity.username}
+Upload Date: ${new Date(activity.timestamp).toLocaleString()}
+Description: ${activity.description || 'No description provided'}
+
+Note: This is a placeholder for the original file.
+In a real application, this would contain the actual file data.`;
+
+    // Create a blob with the content
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    
+    // Create a temporary link element and trigger download
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = activity.uploadedFile; // Use original filename
+    document.body.appendChild(link);
+    link.click();
+    
+    // Clean up
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   };
 
   const resetUserPassword = (username: string) => {
@@ -1212,15 +1283,30 @@ export default function Dashboard() {
                             </h4>
                             <div style={{ color: '#dbeafe', fontSize: '0.875rem', lineHeight: '1.6' }}>
                               {activity.uploadedFile ? (
-                                <div style={{
-                                  background: 'rgba(16, 185, 129, 0.1)',
-                                  border: '1px solid rgba(16, 185, 129, 0.3)',
-                                  borderRadius: '8px',
-                                  padding: '1rem',
-                                  display: 'flex',
-                                  alignItems: 'flex-start',
-                                  gap: '0.75rem'
-                                }}>
+                                <div 
+                                  onClick={() => openAttachmentModal(activity)}
+                                  style={{
+                                    background: 'rgba(16, 185, 129, 0.1)',
+                                    border: '1px solid rgba(16, 185, 129, 0.3)',
+                                    borderRadius: '8px',
+                                    padding: '1rem',
+                                    display: 'flex',
+                                    alignItems: 'flex-start',
+                                    gap: '0.75rem',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease'
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'rgba(16, 185, 129, 0.2)';
+                                    e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+                                    e.currentTarget.style.transform = 'translateY(-2px)';
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(16, 185, 129, 0.1)';
+                                    e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                  }}
+                                >
                                   <span style={{ fontSize: '1.5rem' }}>📎</span>
                                   <div style={{ flex: '1 1 auto', minWidth: 0 }}>
                                     <div style={{ 
@@ -1233,7 +1319,7 @@ export default function Dashboard() {
                                       fontSize: '0.75rem', 
                                       color: '#9ca3af', 
                                       marginTop: '0.25rem' 
-                                    }}>File attached to this record</div>
+                                    }}>Click to view file</div>
                                   </div>
                                 </div>
                               ) : (
@@ -2376,15 +2462,28 @@ export default function Dashboard() {
               {selectedWorkDetails.uploadedFile && (
                 <div style={{ marginBottom: '1rem' }}>
                   <strong style={{ color: '#374151' }}>Attached File:</strong>
-                  <div style={{ 
-                    color: '#6b7280', 
-                    marginTop: '0.5rem',
-                    padding: '0.75rem',
-                    background: '#dbeafe',
-                    borderRadius: '8px',
-                    fontSize: '0.875rem'
-                  }}>
-                    📎 {selectedWorkDetails.uploadedFile}
+                  <div 
+                    onClick={() => openAttachmentModal(selectedWorkDetails)}
+                    style={{ 
+                      color: '#6b7280', 
+                      marginTop: '0.5rem',
+                      padding: '0.75rem',
+                      background: '#dbeafe',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      fontSize: '0.875rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#bfdbfe';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#dbeafe';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    📎 {selectedWorkDetails.uploadedFile} (Click to view)
                   </div>
                 </div>
               )}
@@ -3260,6 +3359,328 @@ export default function Dashboard() {
                     )}
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Attachment Modal */}
+        {showAttachmentModal && selectedAttachment && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '1rem'
+          }}
+          onClick={closeAttachmentModal}
+          >
+            <div style={{
+              background: 'white',
+              borderRadius: '20px',
+              padding: '2rem',
+              maxWidth: '600px',
+              width: '100%',
+              maxHeight: '80vh',
+              overflow: 'auto',
+              position: 'relative',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={closeAttachmentModal}
+                style={{
+                  position: 'absolute',
+                  top: '1rem',
+                  right: '1rem',
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '50%',
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  color: '#ef4444',
+                  fontSize: '1.25rem',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)';
+                }}
+              >
+                ✕
+              </button>
+
+              {/* Modal Header */}
+              <div style={{ marginBottom: '1.5rem', paddingRight: '3rem' }}>
+                <h2 style={{
+                  fontSize: '1.5rem',
+                  fontWeight: '700',
+                  color: '#1f2937',
+                  marginBottom: '0.5rem'
+                }}>
+                  📎 File Attachment
+                </h2>
+                <p style={{
+                  color: '#6b7280',
+                  fontSize: '0.875rem'
+                }}>
+                  Viewing attachment for {selectedAttachment.action} on {new Date(selectedAttachment.timestamp).toLocaleDateString()}
+                </p>
+              </div>
+
+              {/* File Information */}
+              <div style={{
+                background: '#f9fafb',
+                border: '1px solid #e5e7eb',
+                borderRadius: '12px',
+                padding: '1.5rem',
+                marginBottom: '1.5rem'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                  <div style={{
+                    background: '#10b981',
+                    color: 'white',
+                    borderRadius: '50%',
+                    width: '3rem',
+                    height: '3rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.5rem'
+                  }}>
+                    📎
+                  </div>
+                  <div>
+                    <h3 style={{
+                      fontSize: '1.125rem',
+                      fontWeight: '600',
+                      color: '#1f2937',
+                      marginBottom: '0.25rem'
+                    }}>
+                      {selectedAttachment.uploadedFile}
+                    </h3>
+                    <p style={{
+                      color: '#6b7280',
+                      fontSize: '0.875rem'
+                    }}>
+                      File attached to this record
+                    </p>
+                  </div>
+                </div>
+
+                {/* File Details */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                  gap: '1rem',
+                  marginBottom: '1rem'
+                }}>
+                  <div>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      color: '#6b7280',
+                      marginBottom: '0.25rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      Username
+                    </label>
+                    <p style={{
+                      color: '#1f2937',
+                      fontWeight: '500'
+                    }}>
+                      {selectedAttachment.username}
+                    </p>
+                  </div>
+                  <div>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      color: '#6b7280',
+                      marginBottom: '0.25rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      Action
+                    </label>
+                    <p style={{
+                      color: '#1f2937',
+                      fontWeight: '500'
+                    }}>
+                      {selectedAttachment.action}
+                    </p>
+                  </div>
+                  <div>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      color: '#6b7280',
+                      marginBottom: '0.25rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      Date & Time
+                    </label>
+                    <p style={{
+                      color: '#1f2937',
+                      fontWeight: '500'
+                    }}>
+                      {new Date(selectedAttachment.timestamp).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Description */}
+                {selectedAttachment.description && (
+                  <div>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      color: '#6b7280',
+                      marginBottom: '0.25rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      Description
+                    </label>
+                    <p style={{
+                      color: '#1f2937',
+                      lineHeight: '1.6',
+                      background: 'white',
+                      padding: '0.75rem',
+                      borderRadius: '8px',
+                      border: '1px solid #e5e7eb'
+                    }}>
+                      {selectedAttachment.description}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* File Preview/Download */}
+              <div style={{
+                background: '#f3f4f6',
+                border: '2px dashed #d1d5db',
+                borderRadius: '12px',
+                padding: '2rem',
+                textAlign: 'center'
+              }}>
+                <div style={{
+                  fontSize: '3rem',
+                  marginBottom: '1rem'
+                }}>
+                  📄
+                </div>
+                <h3 style={{
+                  fontSize: '1.125rem',
+                  fontWeight: '600',
+                  color: '#1f2937',
+                  marginBottom: '0.5rem'
+                }}>
+                  File Preview
+                </h3>
+                <p style={{
+                  color: '#6b7280',
+                  fontSize: '0.875rem',
+                  marginBottom: '1.5rem'
+                }}>
+                  {selectedAttachment.uploadedFile}
+                </p>
+                <div style={{
+                  display: 'flex',
+                  gap: '1rem',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap'
+                }}>
+                  <button
+                    onClick={() => downloadFile(selectedAttachment)}
+                    style={{
+                      background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                      color: 'white',
+                      border: 'none',
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '8px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 4px 15px rgba(16, 185, 129, 0.4)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.6)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.4)';
+                    }}
+                  >
+                    📄 Download Details
+                  </button>
+                  <button
+                    onClick={() => downloadOriginalFile(selectedAttachment)}
+                    style={{
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                      color: 'white',
+                      border: 'none',
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '8px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 4px 15px rgba(59, 130, 246, 0.4)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.6)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(59, 130, 246, 0.4)';
+                    }}
+                  >
+                    📎 Download Original
+                  </button>
+                  <button
+                    onClick={closeAttachmentModal}
+                    style={{
+                      background: 'rgba(107, 114, 128, 0.1)',
+                      color: '#6b7280',
+                      border: '1px solid rgba(107, 114, 128, 0.3)',
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '8px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(107, 114, 128, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(107, 114, 128, 0.1)';
+                    }}
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>
