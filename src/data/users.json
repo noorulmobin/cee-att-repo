@@ -124,5 +124,26 @@
     "name": "khan",
     "email": "choko@gmail.com",
     "role": "user"
+  },
+  {
+    "username": "workinguser789",
+    "password": "password123",
+    "name": "Working User 789",
+    "email": "workinguser789@example.com",
+    "role": "user"
+  },
+  {
+    "username": "localtest123",
+    "password": "password123",
+    "name": "Local Test User",
+    "email": "localtest123@example.com",
+    "role": "user"
+  },
+  {
+    "username": "aleem",
+    "password": "aleem12",
+    "name": "aleem",
+    "email": "aleem@gmail.com",
+    "role": "user"
   }
 ]

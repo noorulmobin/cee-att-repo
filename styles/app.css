@@ -200,6 +200,7 @@ body {
 .text-gray-400 { color: #9ca3af; }
 .text-gray-300 { color: #d1d5db; }
 .text-gray-600 { color: #4b5563; }
+.text-gray-900 { color: #111827; }
 .text-green-400 { color: #4ade80; }
 .text-red-400 { color: #f87171; }
 
@@ -214,6 +215,9 @@ body {
 .from-gray-900 { --tw-gradient-from: #111827; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(17, 24, 39, 0)); }
 .via-blue-900 { --tw-gradient-stops: var(--tw-gradient-from), #1e3a8a, var(--tw-gradient-to, rgba(30, 58, 138, 0)); }
 .to-purple-900 { --tw-gradient-to: #581c87; }
+.from-blue-50 { --tw-gradient-from: #eff6ff; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(239, 246, 255, 0)); }
+.via-indigo-50 { --tw-gradient-stops: var(--tw-gradient-from), #eef2ff, var(--tw-gradient-to, rgba(238, 242, 255, 0)); }
+.to-purple-50 { --tw-gradient-to: #faf5ff; }
 
 .bg-white\/10 { background-color: rgba(255, 255, 255, 0.1); }
 .bg-white\/5 { background-color: rgba(255, 255, 255, 0.05); }

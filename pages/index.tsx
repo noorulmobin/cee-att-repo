@@ -31,6 +31,10 @@ export default function HomePage() {
       <div className="text-center">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Attendance App</h1>
         <p className="text-xl text-gray-600">Loading...</p>
+        <p className="text-sm text-gray-500 mt-2">Redirecting to login...</p>
+        <div className="mt-4">
+          <a href="/login" className="btn-gradient">Go to Login</a>
+        </div>
       </div>
     </div>
   );

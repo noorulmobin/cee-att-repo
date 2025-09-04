@@ -1,58 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-
-// Simple in-memory database for Vercel compatibility
-interface User {
-  id: string;
-  username: string;
-  email: string;
-  name: string;
-  password: string;
-  role: 'user' | 'admin';
-  created_at: string;
-}
-
-// Global in-memory storage (shared across all API calls)
-let users: User[] = [
-  {
-    id: '1',
-    username: 'admin',
-    email: 'admin@company.com',
-    name: 'System Administrator',
-    password: 'admin123',
-    role: 'admin',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '2',
-    username: 'ceo',
-    email: 'ceo@company.com',
-    name: 'Chief Executive Officer',
-    password: 'ceo2024',
-    role: 'admin',
-    created_at: new Date().toISOString()
-  }
-];
-
-// User management functions
-const userDB = {
-  findByUsername: (username: string): User | undefined => 
-    users.find(u => u.username === username),
-  findByEmail: (email: string): User | undefined => 
-    users.find(u => u.email === email),
-  create: (userData: Omit<User, 'id' | 'created_at'>): User => {
-    const newUser: User = {
-      id: (users.length + 1).toString(),
-      ...userData,
-      created_at: new Date().toISOString()
-    };
-    users.push(newUser);
-    return newUser;
-  },
-  usernameExists: (username: string): boolean => 
-    users.some(u => u.username === username),
-  emailExists: (email: string): boolean => 
-    users.some(u => u.email === email)
-};
+import fs from 'fs';
+import path from 'path';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -66,24 +14,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: 'Username, password, name, and email are required' });
     }
 
+    // Read existing users
+    const usersPath = path.join(process.cwd(), 'src', 'data', 'users.json');
+    let users = [];
+    
+    if (fs.existsSync(usersPath)) {
+      const usersData = fs.readFileSync(usersPath, 'utf8');
+      users = JSON.parse(usersData);
+    }
+
     // Check if username already exists
-    if (userDB.usernameExists(username)) {
+    if (users.find((u: any) => u.username === username)) {
       return res.status(400).json({ message: 'Username already exists' });
     }
 
     // Check if email already exists
-    if (userDB.emailExists(email)) {
+    if (users.find((u: any) => u.email === email)) {
       return res.status(400).json({ message: 'Email already exists' });
     }
 
-    // Create new user
-    const newUser = userDB.create({
+    // Create new user (default role is 'user')
+    const newUser = {
       username,
       password,
       name,
       email,
-      role: 'user'
-    });
+      role: 'user' // Default role for new signups
+    };
+
+    // Add to users array
+    users.push(newUser);
+
+    // Write back to file
+    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
 
     // Return success (without password)
     const { password: _, ...userWithoutPassword } = newUser;
@@ -97,6 +60,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ message: 'Internal server error' });
   }
 }
-
-// Export users array for login API to use
-export { users };

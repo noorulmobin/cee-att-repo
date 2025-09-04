@@ -13,13 +13,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const usersData = fs.readFileSync(usersPath, 'utf8');
     const users = JSON.parse(usersData);
 
-    // Return all users (excluding passwords)
-    const usersWithoutPasswords = users.map((user: any) => {
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
-    });
+    // Check if users exist
+    const hasUsers = users.length > 0;
 
-    return res.status(200).json(usersWithoutPasswords);
+    return res.status(200).json({ hasUsers });
   } catch (error) {
     console.error('Error reading users:', error);
     return res.status(500).json({ message: 'Internal server error' });

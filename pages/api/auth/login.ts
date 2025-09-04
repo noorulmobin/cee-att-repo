@@ -1,37 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-
-// Simple in-memory database for Vercel compatibility
-interface User {
-  id: string;
-  username: string;
-  email: string;
-  name: string;
-  password: string;
-  role: 'user' | 'admin';
-  created_at: string;
-}
-
-// Global in-memory storage (shared across all API calls)
-let users: User[] = [
-  {
-    id: '1',
-    username: 'admin',
-    email: 'admin@company.com',
-    name: 'System Administrator',
-    password: 'admin123',
-    role: 'admin',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: '2',
-    username: 'ceo',
-    email: 'ceo@company.com',
-    name: 'Chief Executive Officer',
-    password: 'ceo2024',
-    role: 'admin',
-    created_at: new Date().toISOString()
-  }
-];
+import fs from 'fs';
+import path from 'path';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -45,7 +14,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
-    // Find user in the users array
+    // Read users from JSON file
+    const usersPath = path.join(process.cwd(), 'src', 'data', 'users.json');
+    const usersData = fs.readFileSync(usersPath, 'utf8');
+    const users = JSON.parse(usersData);
+
+    // Find user
     const user = users.find((u: any) => u.username === username && u.password === password);
 
     if (user) {
