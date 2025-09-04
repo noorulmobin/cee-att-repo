@@ -1,5 +1,5 @@
 -- Supabase Database Setup Script
--- Run this in your Supabase SQL Editor
+-- Copy and paste this entire script into your Supabase SQL Editor
 
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS attendance (
 -- Insert default admin and CEO users
 INSERT INTO users (username, password, name, email, role) VALUES
 ('admin', 'admin123', 'System Administrator', 'admin@company.com', 'admin'),
-('ceo', 'ceo2024', 'Chief Executive Officer', 'ceo@company.com', 'ceo')
+('ceo', 'ceo2024', 'Chief Executive Officer', 'ceo@company.com', 'admin')
 ON CONFLICT (username) DO NOTHING;
 
 -- Enable Row Level Security (RLS)
@@ -41,5 +41,5 @@ CREATE POLICY "Allow all operations on attendance" ON attendance FOR ALL USING (
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_users_username ON users(username);
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
-CREATE INDEX IF NOT EXISTS idx_attendance_user_id ON attendance(user_id);
-CREATE INDEX IF NOT EXISTS idx_attendance_date ON attendance(date);
+CREATE INDEX IF NOT EXISTS idx_attendance_username ON attendance(username);
+CREATE INDEX IF NOT EXISTS idx_attendance_timestamp ON attendance(timestamp);

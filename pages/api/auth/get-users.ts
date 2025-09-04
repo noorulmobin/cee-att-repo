@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { db } from '../../../src/lib/databaseService';
 import { storage } from '../../../src/lib/storage';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -7,8 +8,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Get all users using storage service
-    const users = storage.getUsers();
+    // Try database first, fallback to storage
+    let users = [];
+
+    if (db.isConnected()) {
+      // Use database
+      users = await db.getAllUsers();
+    } else {
+      // Use storage fallback
+      users = storage.getUsers();
+    }
 
     return res.status(200).json(users);
   } catch (error) {

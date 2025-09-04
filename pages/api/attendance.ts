@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { db } from '../../src/lib/databaseService';
 import { google } from 'googleapis';
 
 // Google Sheets API configuration
@@ -66,22 +67,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
 
-    // Also save to local storage as backup
-    const newRecord = {
-      id: Date.now().toString(),
+    // Save to database
+    const activityData = {
+      username,
       action,
       timestamp,
       description: description || '',
-      uploadedFile: uploadedFile || '',
-      username
+      uploadedFile: uploadedFile || ''
     };
 
-    // Get existing records from localStorage (this would be handled on the client side)
-    // For now, return success response
+    let savedRecord = null;
+    if (db.isConnected()) {
+      // Use database
+      savedRecord = await db.createActivity(activityData);
+    }
+
+    // Return success response
     res.status(200).json({ 
       message: 'Attendance recorded successfully',
-      record: newRecord,
-      sheetsSaved: !!sheets
+      record: savedRecord || {
+        id: Date.now().toString(),
+        ...activityData
+      },
+      sheetsSaved: !!sheets,
+      databaseSaved: !!savedRecord
     });
 
   } catch (error) {

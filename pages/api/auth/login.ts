@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { db } from '../../../src/lib/databaseService';
 import { storage } from '../../../src/lib/storage';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -13,9 +14,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
-    // Find user using storage service
-    const users = storage.getUsers();
-    const user = users.find(u => u.username === username);
+    // Try database first, fallback to storage
+    let user = null;
+
+    if (db.isConnected()) {
+      // Use database
+      user = await db.findUserByUsername(username);
+    } else {
+      // Use storage fallback
+      const users = storage.getUsers();
+      user = users.find(u => u.username === username);
+    }
 
     if (user && user.password === password) {
       // Return user data (excluding password)

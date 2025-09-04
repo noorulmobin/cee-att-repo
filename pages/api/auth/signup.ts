@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { db } from '../../../src/lib/databaseService';
 import { storage } from '../../../src/lib/storage';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -13,23 +14,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: 'Username, password, name, and email are required' });
     }
 
-    // Get existing users
-    const users = storage.getUsers();
+    // Try database first, fallback to storage
+    let existingUserByUsername = null;
+    let existingUserByEmail = null;
 
-    // Check if username already exists
-    const existingUserByUsername = users.find(user => user.username === username);
+    if (db.isConnected()) {
+      // Use database
+      existingUserByUsername = await db.findUserByUsername(username);
+      const allUsers = await db.getAllUsers();
+      existingUserByEmail = allUsers.find(user => user.email === email);
+    } else {
+      // Use storage fallback
+      const users = storage.getUsers();
+      existingUserByUsername = users.find(user => user.username === username);
+      existingUserByEmail = users.find(user => user.email === email);
+    }
+
     if (existingUserByUsername) {
       return res.status(400).json({ message: 'Username already exists' });
     }
 
-    // Check if email already exists
-    const existingUserByEmail = users.find(user => user.email === email);
     if (existingUserByEmail) {
       return res.status(400).json({ message: 'Email already exists' });
     }
 
     // Create new user
-    const newUser = {
+    const newUserData = {
       username,
       password,
       name,
@@ -37,8 +47,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       role: 'user'
     };
 
-    // Add user to storage
-    storage.addUser(newUser);
+    let newUser = null;
+
+    if (db.isConnected()) {
+      // Use database
+      newUser = await db.createUser(newUserData);
+    } else {
+      // Use storage fallback
+      storage.addUser(newUserData);
+      newUser = newUserData;
+    }
+
+    if (!newUser) {
+      return res.status(500).json({ message: 'Failed to create user' });
+    }
 
     // Return user without password
     const { password: _, ...userWithoutPassword } = newUser;

@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { db } from '../../../src/lib/databaseService';
 import { storage } from '../../../src/lib/storage';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -18,21 +19,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(403).json({ message: 'Cannot delete admin or CEO users for security reasons' });
     }
 
-    // Get current users from storage
-    const users = storage.getUsers();
+    // Try database first, fallback to storage
+    let success = false;
 
-    // Find user to delete
-    const userIndex = users.findIndex((user: any) => user.username === username);
-    
-    if (userIndex === -1) {
-      return res.status(404).json({ message: 'User not found' });
+    if (db.isConnected()) {
+      // Use database
+      success = await db.deleteUser(username);
+    } else {
+      // Use storage fallback
+      const users = storage.getUsers();
+      const userIndex = users.findIndex((user: any) => user.username === username);
+      
+      if (userIndex === -1) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Remove user from array
+      users.splice(userIndex, 1);
+      storage.saveUsers(users);
+      success = true;
     }
 
-    // Remove user from array
-    users.splice(userIndex, 1);
-
-    // Save updated users back to storage
-    storage.saveUsers(users);
+    if (!success) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     // Return success response
     res.status(200).json({ 
