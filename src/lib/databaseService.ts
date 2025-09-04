@@ -214,7 +214,8 @@ class DatabaseService {
 
   // Check if database is connected
   isConnected(): boolean {
-    return supabase !== null;
+    // Temporarily disable database connection to use local storage
+    return false;
   }
 }
 
