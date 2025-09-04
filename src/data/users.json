@@ -170,5 +170,14 @@
     "role": "user",
     "id": 24,
     "created_at": "2025-09-04T01:32:07.003Z"
+  },
+  {
+    "username": "fazal",
+    "password": "fazal",
+    "name": "fazal",
+    "email": "fazal@gmail.com",
+    "role": "user",
+    "id": 25,
+    "created_at": "2025-09-04T01:38:16.833Z"
   }
 ]
